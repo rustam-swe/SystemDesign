@@ -1,0 +1,38 @@
+# Generated files from syscall examples
+syscalls_basics/test.txt
+syscalls_basics/demo.txt
+syscalls_basics/hello.txt
+syscalls_basics/regular_example.txt
+syscalls_basics/syscall_example.txt
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
