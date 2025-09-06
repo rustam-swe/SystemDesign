@@ -1,106 +1,139 @@
-# Makefile for System Calls Examples
-# Makes it easy to run and test all the syscall examples
+# Makefile for System Calls Learning Examples
+# Master makefile for all syscall modules
 
-.PHONY: all clean run-hello run-create run-read run-demo run-comparison test help network-help network-examples
+.PHONY: all clean help file-examples network-examples file-help network-help test-all
 
 # Default target
 all: help
 
-# Run the hello world example
-run-hello:
-	@echo "=== Running Hello World Example ==="
-	go run 00_hello_world.go
-	@echo "✓ Hello world completed"
+# File operations shortcuts
+file-hello:
+	@echo "=== Running File Operations: Hello World ==="
+	@cd file_operations && make run-hello
+
+file-create:
+	@echo "=== Running File Operations: Create/Write ==="
+	@cd file_operations && make run-create
+
+file-read:
+	@echo "=== Running File Operations: Read ==="
+	@cd file_operations && make run-read
+
+file-demo:
+	@echo "=== Running File Operations: Complete Demo ==="
+	@cd file_operations && make run-demo
+
+file-comparison:
+	@echo "=== Running File Operations: Comparison ==="
+	@cd file_operations && make run-comparison
+
+file-test:
+	@echo "=== Running All File Operations Examples ==="
+	@cd file_operations && make test
+
+# Network operations shortcuts
+network-tcp:
+	@echo "=== Running Network: TCP Client ==="
+	@cd network && make tcp-client
+
+network-http:
+	@echo "=== Running Network: HTTP Client ==="
+	@cd network && make http-client
+
+network-server:
+	@echo "=== Running Network: HTTP Server ==="
+	@cd network && make server
+
+network-attack:
+	@echo "=== Running Network: Educational Attack Demo ==="
+	@cd network && make slow-loris
+
+network-test:
+	@echo "=== Running Network Test Sequence ==="
+	@cd network && make test-http
+
+# Module help commands
+file-help:
+	@echo "📁 File Operations Module"
+	@echo "========================"
 	@echo
+	@cd file_operations && make help
 
-# Run the simple create/write example
-run-create:
-	@echo "=== Running Create/Write Example ==="
-	go run 01_simple_create_write.go
-	@echo "✓ Created test.txt"
-	@echo
-
-# Run the simple read example
-run-read:
-	@echo "=== Running Read Example ==="
-	go run 02_simple_read.go
-	@echo "✓ Read test.txt"
-	@echo
-
-# Run the complete demo
-run-demo:
-	@echo "=== Running Complete Demo ==="
-	go run 03_complete_demo.go
-	@echo "✓ Demo completed"
-	@echo
-
-# Run the comparison example
-run-comparison:
-	@echo "=== Running Comparison Example ==="
-	go run comparison.go
-	@echo "✓ Comparison completed"
-	@echo
-
-# Run all examples in sequence
-test: run-hello run-create run-read run-demo run-comparison
-	@echo "=== All Basic Examples Completed Successfully ==="
-	@echo "📡 Ready for network examples? Try: make network-help"
-
-# Clean up generated files
-clean:
-	@echo "Cleaning up generated files..."
-	@rm -f test.txt demo.txt hello.txt
-	@cd network && make clean 2>/dev/null || true
-	@echo "✓ Cleanup complete"
-
-# Network examples help
 network-help:
-	@echo "📡 Network Programming Examples Available!"
-	@echo "========================================="
+	@echo "📡 Network Programming Module"
+	@echo "============================="
 	@echo
-	@echo "Location: ./network/"
-	@echo
-	@echo "To get started with network examples:"
-	@echo "  cd network"
-	@echo "  make help"
-	@echo
-	@echo "Or run directly:"
-	@echo "  make network-examples"
-	@echo
-	@echo "⚠️  Important: Read network/SAFETY.md before using attack examples!"
-
-# Run network examples (redirect to network directory)
-network-examples:
-	@echo "Switching to network examples..."
 	@cd network && make help
 
-# Show help
+file-examples:
+	@echo "Switching to file operations examples..."
+	@cd file_operations && make help
+
+network-examples:
+	@echo "Switching to network programming examples..."
+	@cd network && make help
+
+# Run complete test suite
+test-all: file-test
+	@echo
+	@echo "📁 File Operations: ✅ PASSED"
+	@echo "📡 Network examples available - run 'make network-help' to explore"
+	@echo
+	@echo "🎉 All basic examples completed successfully!"
+
+# Clean up all modules
+clean:
+	@echo "Cleaning up all modules..."
+	@cd file_operations && make clean 2>/dev/null || true
+	@cd network && make clean 2>/dev/null || true
+	@echo "✓ All modules cleaned"
+
+# Show main help
 help:
-	@echo "System Calls Learning Examples"
-	@echo "=============================="
+	@echo "System Calls Learning Environment"
+	@echo "================================="
 	@echo
-	@echo "📁 BASIC FILE OPERATIONS:"
-	@echo "  run-hello      - Run the hello world example (simplest)"
-	@echo "  run-create     - Run the create/write example (creates test.txt)"
-	@echo "  run-read       - Run the read example (reads test.txt)"
-	@echo "  run-demo       - Run the complete demo (creates demo.txt)"
-	@echo "  run-comparison - Run the comparison between Go and syscalls"
-	@echo "  test           - Run all basic examples in sequence"
+	@echo "🏗️ PROJECT STRUCTURE:"
+	@echo "  📁 file_operations/  - Basic file I/O with syscalls"
+	@echo "  📡 network/          - Network programming and security"
 	@echo
-	@echo "📡 NETWORK PROGRAMMING:"
-	@echo "  network-help     - Show network examples information"
-	@echo "  network-examples - Go to network examples"
+	@echo "📚 LEARNING MODULES:"
+	@echo
+	@echo "📁 FILE OPERATIONS (Start Here):"
+	@echo "  file-hello      - Hello world with syscalls (simplest)"
+	@echo "  file-create     - Create and write files"
+	@echo "  file-read       - Read files and display content"
+	@echo "  file-demo       - Complete file workflow"
+	@echo "  file-comparison - Syscalls vs standard Go"
+	@echo "  file-test       - Run all file examples"
+	@echo "  file-help       - Detailed file operations help"
+	@echo
+	@echo "📡 NETWORK PROGRAMMING (Advanced):"
+	@echo "  network-tcp     - Basic TCP client"
+	@echo "  network-http    - HTTP client"
+	@echo "  network-server  - HTTP server"
+	@echo "  network-attack  - Educational DoS demo (read safety guide first!)"
+	@echo "  network-test    - Run network test sequence"
+	@echo "  network-help    - Detailed network programming help"
 	@echo
 	@echo "🔧 UTILITIES:"
-	@echo "  clean - Remove all generated files"
-	@echo "  help  - Show this help message"
+	@echo "  test-all        - Run all basic examples"
+	@echo "  clean           - Clean up all generated files"
+	@echo "  help            - Show this help message"
 	@echo
-	@echo "🚀 LEARNING PATH:"
-	@echo "  1. Start here: make test"
-	@echo "  2. Advanced:   make network-help"
+	@echo "🎯 RECOMMENDED LEARNING PATH:"
+	@echo "  1. Start here:    make file-test"
+	@echo "  2. Then try:      make network-help"
+	@echo "  3. Full journey:  make test-all"
 	@echo
-	@echo "📚 Documentation:"
-	@echo "  • README.md - Comprehensive guide to basic syscalls"
-	@echo "  • EXAMPLES.md - Quick reference for all examples"
+	@echo "📖 DOCUMENTATION:"
+	@echo "  • README.md - Project overview and introduction"
 	@echo "  • QUICK_START.md - 5-minute getting started guide"
+	@echo "  • COMPLETE_GUIDE.md - Comprehensive learning guide"
+	@echo "  • file_operations/README_FILE_OPS.md - File I/O deep dive"
 	@echo "  • network/README_NETWORK.md - Network programming guide"
+	@echo "  • network/SAFETY.md - Important safety and ethics guidelines"
+	@echo
+	@echo "⚡ QUICK START:"
+	@echo "  make file-test  # Learn the basics"
+	@echo "  make clean      # Clean up when done"

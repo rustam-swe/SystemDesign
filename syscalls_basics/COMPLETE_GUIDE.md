@@ -61,8 +61,8 @@ This comprehensive guide will take you from absolute beginner to advanced system
 ### Phase 1: Foundation (30 minutes)
 ```bash
 # Start here - absolute basics
-make run-hello          # Hello world with syscalls
-make run-comparison     # See syscalls vs regular Go
+make file-hello         # Hello world with syscalls
+make file-comparison    # See syscalls vs regular Go
 ```
 
 **Learning Goals:**
@@ -73,10 +73,10 @@ make run-comparison     # See syscalls vs regular Go
 ### Phase 2: File Operations (1 hour)
 ```bash
 # File I/O fundamentals
-make run-create         # Create and write files
-make run-read          # Read file contents
-make run-demo          # Complete file workflow
-make test              # Run all file examples
+make file-create        # Create and write files
+make file-read          # Read file contents
+make file-demo          # Complete file workflow
+make file-test          # Run all file examples
 ```
 
 **Learning Goals:**
@@ -87,6 +87,7 @@ make test              # Run all file examples
 
 ### Phase 3: Network Basics (1-2 hours)
 ```bash
+make network-help      # See network options
 cd network
 make tcp-client        # Basic TCP communication (needs server)
 make server           # Start HTTP server
@@ -103,6 +104,7 @@ make http-client      # Test HTTP communication
 ### Phase 4: HTTP Protocol (1-2 hours)
 ```bash
 # Advanced HTTP concepts
+cd network
 make server           # Start server
 # Test with browser: http://127.0.0.1:8080
 make http-client     # Programmatic testing
@@ -117,6 +119,7 @@ make http-client     # Programmatic testing
 ### Phase 5: Security Concepts (2-3 hours)
 ```bash
 # IMPORTANT: Read safety guide first
+cd network
 make safety          # Display safety guidelines
 make demo-attack     # Educational DoS demonstration
 ```
@@ -131,14 +134,14 @@ make demo-attack     # Educational DoS demonstration
 
 ### Core Examples
 
-#### 1. Hello World (`00_hello_world.go`)
+#### 1. Hello World (`file_operations/00_hello_world.go`)
 ```go
 // Simplest possible syscall - print to screen
 syscall.Syscall(syscall.SYS_WRITE, 1, messagePtr, messageLen)
 ```
 **Concepts**: Basic syscall structure, file descriptors (stdout = 1)
 
-#### 2. Create and Write (`01_simple_create_write.go`)
+#### 2. Create and Write (`file_operations/01_simple_create_write.go`)
 ```go
 // Create file with permissions
 fd := syscall.Syscall(syscall.SYS_OPEN, filenamePtr, O_CREAT|O_WRONLY, 0644)
@@ -147,7 +150,7 @@ syscall.Syscall(syscall.SYS_WRITE, fd, messagePtr, messageLen)
 ```
 **Concepts**: File creation, permissions (0644), file flags
 
-#### 3. Read File (`02_simple_read.go`)
+#### 3. Read File (`file_operations/02_simple_read.go`)
 ```go
 // Open for reading
 fd := syscall.Syscall(syscall.SYS_OPEN, filenamePtr, O_RDONLY, 0)
@@ -156,10 +159,10 @@ syscall.Syscall(syscall.SYS_READ, fd, bufferPtr, bufferSize)
 ```
 **Concepts**: Reading data, buffer management, null termination
 
-#### 4. Complete Demo (`03_complete_demo.go`)
+#### 4. Complete Demo (`file_operations/03_complete_demo.go`)
 **Concepts**: Full workflow, error handling, progress reporting
 
-#### 5. Comparison (`comparison.go`)
+#### 5. Comparison (`file_operations/comparison.go`)
 **Concepts**: Syscalls vs standard library, when to use each approach
 
 ### Key File Syscalls
@@ -181,7 +184,7 @@ syscall.Syscall(syscall.SYS_READ, fd, bufferPtr, bufferSize)
 
 ### Core Examples
 
-#### 1. TCP Client (`01_tcp_client.go`)
+#### 1. TCP Client (`network/01_tcp_client.go`)
 ```go
 // Create socket
 socketFD := syscall.Syscall(syscall.SYS_SOCKET, AF_INET, SOCK_STREAM, 0)
@@ -190,7 +193,7 @@ syscall.Syscall(syscall.SYS_CONNECT, socketFD, serverAddrPtr, addrLen)
 ```
 **Concepts**: Socket creation, connection establishment, network addresses
 
-#### 2. HTTP Client (`02_http_client.go`)
+#### 2. HTTP Client (`network/02_http_client.go`)
 ```go
 // Send HTTP request
 httpRequest := "GET / HTTP/1.1\r\nHost: localhost:8080\r\n\r\n"
@@ -198,7 +201,7 @@ syscall.Syscall(syscall.SYS_WRITE, socketFD, requestPtr, requestLen)
 ```
 **Concepts**: HTTP protocol format, request headers, response parsing
 
-#### 3. HTTP Server (`03_http_server.go`)
+#### 3. HTTP Server (`network/03_http_server.go`)
 ```go
 // Create server socket
 serverFD := syscall.Syscall(syscall.SYS_SOCKET, AF_INET, SOCK_STREAM, 0)
@@ -211,7 +214,7 @@ clientFD := syscall.Syscall(syscall.SYS_ACCEPT, serverFD, clientAddrPtr, addrLen
 ```
 **Concepts**: Server sockets, binding, listening, accepting connections
 
-#### 4. Slow Loris Attack (`04_slow_loris.go`)
+#### 4. Slow Loris Attack (`network/04_slow_loris.go`)
 ```go
 // Create many connections
 for i := 0; i < numConnections; i++ {
@@ -286,7 +289,7 @@ networkPort := []byte{
 ### Manual Testing Sequence
 ```bash
 # 1. Test file operations
-make test
+make file-test
 
 # 2. Test network basics
 cd network
@@ -303,7 +306,7 @@ make slow-loris      # After reading SAFETY.md
 ### Automated Testing
 ```bash
 # Run all file examples
-make test
+make file-test
 
 # Run guided network tests
 cd network

@@ -1,9 +1,9 @@
 # Generated files from syscall examples
-syscalls_basics/test.txt
-syscalls_basics/demo.txt
-syscalls_basics/hello.txt
-syscalls_basics/regular_example.txt
-syscalls_basics/syscall_example.txt
+syscalls_basics/file_operations/test.txt
+syscalls_basics/file_operations/demo.txt
+syscalls_basics/file_operations/hello.txt
+syscalls_basics/file_operations/regular_example.txt
+syscalls_basics/file_operations/syscall_example.txt
 
 # Go build artifacts
 *.exe
